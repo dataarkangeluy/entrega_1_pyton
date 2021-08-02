@@ -5,6 +5,10 @@
 #####  
 
 
+################# Bibliotecas Necesarias ##############
+# !pip install unidecode  # Instala sistema de codificación de caracteres para levantar archivo
+import time
+import random 
 
 #################  LEO ARCHIVO con peliculas y limpio de caracteres raros con encoding #################
 with open('Presentacion_tarea\pelis.txt', encoding="utf-8") as f:
@@ -20,7 +24,7 @@ for pelicula in mis_peliculas:
 
 
 
-##############  utilizo funcion para dibujar la calicatura del ahorcado cada vez que exista un error  #############################
+##############  Utilizo funcion para dibujar la calicatura del ahorcado cada vez que exista un error  #############################
 def errores(v):
     if v == 5:
         print("\033[2J\033[1;1f") # Borrar pantalla y situa cursor
@@ -115,34 +119,33 @@ print(""" \033[1;33m
 INSTRUCCIONES:\033[0;m El Objetivo del juego es descubrir el nombre de la pelicula secreta.
 Al iniciar el juego podras pedir una letra o adivinar la pelicula.
 Si la letra no está en el nombre de la pelicula, entonces perderas una vida....
-
 Obtienes la victoria si logras \033[1;35madivinar\033[0;m la pelicula secreata, \033[1;35mantes de gastar tus 6 vidas.\033[0;m 
      """)
 
 
 
 ################# Conecto con el jugador, para obtener un juego mas simpatico. #####################################################################
+
 nombre=input("\033[1;32m Como te llamas?\033[0;m ")
+time.sleep(3)
 print("\033[2J\033[1;1f") # Borrar pantalla y situa cursor 
 print("Hola \033[1;33m" + nombre + "\033[0;m, es hora de jugar !!")
 
  
-#################  inicializo variables ##############################################################################################################
-tus_letras=" "
-vidas=6
+
 
 
 ################# PELICULA RANDOM - eligo la pelicula al azar,  y la muestro en pantalla al participante ################################################
-import random # importa el modulo random de python
 def selectRandom(mis_peliculas_limpias):
     return random.choice(mis_peliculas_limpias)
 pelicula_random = selectRandom(mis_peliculas_limpias)
 pelicula_minuscula = [x.lower() for x in pelicula_random]  #convierto a minuculas la pelicula secreta
 
+time.sleep(1)
 print(" ")
 print(f"La pelicula secreta es: \033[1;31;47m {pelicula_random} \033[0;m ")
 print(f"""
-Estas es la cantidad de letras que tien tu pelicula secreta, es hora de adivinar....!!
+Estas es la cantidad de letras que tien tu pelicula secreta, es la hora de adivinar su nombre....!!
 """)
 
 
@@ -151,27 +154,31 @@ Estas es la cantidad de letras que tien tu pelicula secreta, es hora de adivinar
 
 ################################################### COMIENZA EL JUEGO  ##################################################################################
 
+#################  inicializo variables 
+tus_letras=" "
+vidas=6
+
 ############### # El juego continua, mientras se tengan vida (vidas > 0) o el jugador adivine la pelicula_minuscula (saliendo del while con break)
 while vidas > 0: # Controlo el numero de vidas
     fallas=0     # inicializo variable de fallas ante el no acierto de letras
-    
+    print(f"{fallas} fallas1")    
 
     ##################################################################################
     ### con la instruccion FOR recorro letra a letra y voy verificando con if si la letra tien acierto o no, en caso de NO acertar, resto 1 vida  ######    
     for letra in pelicula_minuscula:
+         
         if letra in tus_letras:     # verifico si la letra esta en la pelicula
             
             print("\033[1;35m" +  letra + "\033[0;m", end="")     # si está la imprimo 
         else:                        
-            print("_",end=" ")  # si no esta, oculo letras y sumo una vida al contador       
+            
+            print("_",end="")  # si no esta, oculo letras y sumo una vida al contador       
             fallas+=1   
-
-
-
+            
         
      ##################################################################################
      # verifico si al salir del FOR, las fallas = 0 el participante gano y corto el ciclo while
-    
+    print(f"{fallas} fallas3")      
     if fallas==0:  # 
         print("""
                 
@@ -198,12 +205,14 @@ while vidas > 0: # Controlo el numero de vidas
                        
         break  # corto con el ciclo while
         
-               
+
+
 
     ############################## INGRESO Y CONTROLO ACIERTOS Y ERRORES ####################################################  
+    
     tuletra=input("""
     
-Introduce una letra: """).lower() # paso el imput a minuculas
+Introduce una letra: """).lower() # paso el input a minusculas
     
     if tuletra == " ":   # controlo que no ingrese un espacio
         print("\033[2J\033[1;1f") # Borrar pantalla y situar cursor
@@ -240,7 +249,6 @@ Introduce una letra: """).lower() # paso el imput a minuculas
 else:  # el else de while que se ejecuta una vez que la condición sea falsa, o sea cuando termina el juego sin usar el break
     print(""" 
 La pelicula secreta era \033[1;35m""" +  pelicula_random + """\033[0;m  
-
              \033[1;33m\|||/\033[0;m
              (\033[1;34mo o\033[0;m)
     ------ooO-(_)-Ooo------   
@@ -254,4 +262,3 @@ La pelicula secreta era \033[1;35m""" +  pelicula_random + """\033[0;m
     ########################### Arte de texto ascii generada en https://norfipc.com/facebook/dibujos-figuras-ascii-firmar-pegar-muro-facebook.html   #################################                                     
 
             
-        
